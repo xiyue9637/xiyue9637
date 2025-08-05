@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>莫奈风格图片博客</title>
+    <style>
+        :root {
+            /* Material Design 3 莫奈动态色系 (浅色主题) */
+            --md3-primary: #6750A4;
+            --md3-primary-variant: #D0BCFF;
+            --md3-secondary: #B694F8;
+            --md3-background: #FFFBFE;
+            --md3-surface: #FFFBFE;
+            --md3-error: #B3261E;
+            --md3-on-primary: #FFFFFF;
+            --md3-on-surface: #1C1B1F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--md3-background);
+            color: var(--md3-on-surface);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            line-height: 1.6;
+        }
+        
+        /* MD3 卡片样式 */
+        .md3-card {
+            background: var(--md3-surface);
+            border-radius: 28px;
+            box-shadow: 
+                0 3px 1px -2px rgba(0,0,0,0.2),
+                0 2px 2px 0 rgba(0,0,0,0.14),
+                0 1px 5px 0 rgba(0,0,0,0.12);
+            padding: 24px;
+            margin-bottom: 32px;
+            transition: transform 0.3s;
+        }
+        
+        .md3-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        /* 渐变标题 */
+        h1, h2 {
+            background: linear-gradient(45deg, var(--md3-primary), var(--md3-primary-variant));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        /* 双列图片布局 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 20px;
+        }
+        
+        .image-item {
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(103, 80, 164, 0.2);
+            transition: all 0.3s;
+            height: 280px;
+        }
+        
+        .image-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(103, 80, 164, 0.3);
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .placeholder {
+            background: linear-gradient(135deg, #F3E7FF, #EADDFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--md3-primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+            border-radius: 18px;
+            border: 2px dashed var(--md3-primary-variant);
+        }
+        
+        /* 全彩色文字系统 */
+        .blog-content {
+            color: var(--md3-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .update-info {
+            background: linear-gradient(90deg, #FFE082, #FFD600);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        .image-count {
+            color: #FFD600;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(103, 80, 164, 0.1);
+            color: var(--md3-primary);
+            font-size: 0.9rem;
+        }
+        
+        /* MD3 按钮样式 */
+        .md3-button {
+            background: var(--md3-primary);
+            color: var(--md3-on-primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s;
+        }
+        
+        .md3-button:hover {
+            background: #5D479A;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎨 莫奈风格图片博客</h1>
+        <p class="update-info">最后更新: <span id="update-time"></span> | <span class="image-count" id="image-count">0</span>/100 个图片</p>
+    </header>
+
+    <!-- 博客内容区 -->
+    <div class="md3-card">
+        <h2>✨ 我的创作日记</h2>
+        <div class="blog-content">
+            <p>这里是您的文字空间。点击右上角铅笔图标编辑此内容，添加您的故事...</p>
+            <p style="margin-top: 16px; color: #FFD600;">💡 <strong>操作提示</strong>：上传图片到 images/ 目录，命名规则见下方说明</p>
+        </div>
+        <button class="md3-button" onclick="window.location.reload()">刷新查看新图片</button>
+    </div>
+
+    <!-- 双列图片画廊 -->
+    <div class="md3-card">
+        <h2>🖼️ 图片收藏馆</h2>
+        <p class="blog-content">已上传图片自动显示（上传后等待2分钟） | <span class="update-info">命名规则：image001.jpg 到 image100.jpg</span></p>
+        <div class="gallery" id="image-gallery"></div>
+    </div>
+
+    <footer>
+        <p>© 2023 由 GitHub Pages 自动更新 | 莫奈动态色系 | <span id="build-time"></span></p>
+    </footer>
+
+    <script>
+        // 生成100个图片位（双列布局）
+        const gallery = document.getElementById('image-gallery');
+        let loadedCount = 0;
+        
+        for (let i = 1; i <= 100; i++) {
+            const num = i.toString().padStart(3, '0');
+            const container = document.createElement('div');
+            container.className = 'image-item';
+            
+            const img = document.createElement('img');
+            img.src = `images/image${num}.jpg`;
+            img.alt = `莫奈图片#${i}`;
+            img.style.opacity = '0';
+            img.onload = () => {
+                img.style.opacity = '1';
+                loadedCount++;
+                document.getElementById('image-count').textContent = loadedCount;
+            };
+            
+            img.onerror = () => {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'placeholder';
+                placeholder.textContent = `位置 ${num} (等待上传)`;
+                container.appendChild(placeholder);
+            };
+            
+            container.appendChild(img);
+            gallery.appendChild(container);
+        }
+
+        // 显示当前时间
+        const now = new Date();
+        document.getElementById('update-time').textContent = now.toLocaleString();
+        document.getElementById('build-time').textContent = now.toLocaleString();
+        document.getElementById('image-count').textContent = loadedCount;
+    </script>
+</body>
+</html>
